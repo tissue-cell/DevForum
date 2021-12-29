@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Index from './App';
+import Home from './App';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Index /> 
+    <Home /> 
   </React.StrictMode>,
-  document.getElementById('index')
+  document.getElementById('home')
 );
 
 // If you want to start measuring performance in your app, pass a function
