@@ -1,6 +1,10 @@
 # dev_forum
  Spring Framework & React.js 기반 개발자 웹포럼 프로젝트
  
+## 최초 세팅
+1. 프로젝트/src/main 경로에서 [npm install --save-dev] 명령어로 package.json에 들어가있는 모듈을 모두 내려받는다.
+2. 개발 진행시 프로젝트/src/main 경로에서 [npm run develop] 명령어로 webpack watch 기능을 활성화 한다.
+ 
 ## 개발 환경
 - java8
 - Apache Tomcat 8.5
