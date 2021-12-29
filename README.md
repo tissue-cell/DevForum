@@ -4,6 +4,13 @@
 ## 최초 세팅
 1. 프로젝트/src/main 경로에서 [npm install --save-dev] 명령어로 package.json에 들어가있는 모듈을 모두 내려받는다.
 2. 개발 진행시 프로젝트/src/main 경로에서 [npm run develop] 명령어로 webpack watch 기능을 활성화 한다.
+
+## 프로젝트 구조
+- src/main/front 디렉토리는 리액트 파일을 관리한다.
+- src/main/webapp/resources 디렉토리는 webpack을 통한 패키징 파일과 이미지 리소스들이 포함된다.
+- src/main/java 디렉토리는 자바 파일을 관리한다.
+- src/main/webapp/WEB-INF/views 디렉토리는 jsp파일 뷰단을 관리한다.
+- src/main/webapp/WEB-INF/spring 디렉토리는 context xml 파일들을 관리한다.
  
 ## 개발 환경
 - java8
