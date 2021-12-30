@@ -15,6 +15,9 @@
 ## 개발 환경
 - java8
 - Apache Tomcat 8.5
+- Spring 4.3.29
+- Mysql 5.7.36
+- Mybatis 3.4.1
 
 ## Commit Style
 
