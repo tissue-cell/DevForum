@@ -114,7 +114,7 @@
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter</artifactId>
 			<version>5.7.0</version>
-			<scope>test</scope>
+			<!-- <scope>test</scope> junit 라이브러리를 테스트시에만 사용하게끔 되어있어 빌드시에 라이브러리가 포함되지 않아 빌드오류가 생김으로 주석처리함-->
 		</dependency>      
 		<!-- Mysql Connector -->
 		<dependency>
