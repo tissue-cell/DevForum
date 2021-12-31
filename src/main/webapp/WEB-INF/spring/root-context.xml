@@ -16,11 +16,10 @@
     <bean id="dataSource"
         class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
-        <property name="url"
-            value="jdbc:mysql://127.0.0.1:3306/dev_forum?useSSL=false&amp;serverTimezone=UTC">
+        <property name="url" value="jdbc:mysql://127.0.0.1:3306/dev_forum?allowPublicKeyRetrieval=true&amp;useSSL=false&amp;serverTimezone=UTC">
         </property>
         <property name="username" value="root"></property>
-        <property name="password" value=""></property>
+        <property name="password" value="admin123!@#"></property>
     </bean>        
     
    
