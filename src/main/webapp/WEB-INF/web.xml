@@ -6,8 +6,19 @@
 	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/spring/root-context.xml</param-value>
+		<param-value>/WEB-INF/spring/*-context.xml</param-value>		<!-- spring 폴더 내의 모든 context 파일을 가져온다. -->
 	</context-param>
+	
+	<!-- Spring Security 사용을 위한 filter 추가 -->
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>		<!-- 모든 요청을 spring security가 가로채 보안을 적용 -->
+	</filter>
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
 	
 	<!-- Creates the Spring Container shared by all Servlets and Filters -->
 	<listener>
