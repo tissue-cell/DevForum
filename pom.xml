@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.tissue_cell</groupId>
-	<artifactId>controller</artifactId>
+	<artifactId>tissue-cell</artifactId>
 	<name>DevForum</name>
 	<packaging>war</packaging>
 	<version>DevForum-v1.0</version>
@@ -164,6 +164,7 @@
 	    </dependency>
 	</dependencies>
     <build>
+    	<finalName>DevForum</finalName>
         <plugins>
             <plugin>
                 <artifactId>maven-eclipse-plugin</artifactId>
