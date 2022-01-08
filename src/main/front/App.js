@@ -1,32 +1,32 @@
 import React, {Component} from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter,Route,Routes,Link, } from 'react-router-dom';
+import Index from './view/Index';
+import Login from './view/Login';
+
 
 class App extends Component{
 
-  state = {};
 
-  componentDidMount(){
-    setInterval(this.hello, 250);
-  }
-
-  hello = () => {
-    fetch('/api/hello',{method: 'POST'})
-      .then(response => response.text())
-      .then(message => {
-        this.setState({message: message});
-      });
-  }
   render(){
     return (
-      <div className="App">
-          <header className="App-header">
-              <img src={logo} className="App-logo" alt="logo"/>
-              <h1 className="App-title">{this.state.message}</h1>
-          </header>
-          <a></a>
+      <div>
+        <BrowserRouter>
+        <ul>
+          <li>
+            <Link to ="/">Home</Link>
+          </li>
+          <li>
+            <Link to ="/login">Login</Link>
+          </li>
+        </ul>
+          <Routes>
+            <Route path="/" element={<Index />}/>
+            <Route path="/login" element={<Login />}/>
+            <Route path="/*" element={<Index />}/>
+          </Routes>
+        </BrowserRouter>
       </div>
-  );
+    );
   }
 }
 

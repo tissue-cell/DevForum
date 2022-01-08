@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "react-router-dom": "^6.2.1"
+  },
   "devDependencies": {
     "html-webpack-plugin": "^5.5.0",
     "react": "^17.0.2",

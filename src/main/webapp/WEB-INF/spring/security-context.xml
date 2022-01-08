@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans:beans xmlns="http://www.springframework.org/schema/security"
              xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:p="http://www.springframework.org/schema/p"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://www.springframework.org/schema/beans
                                  http://www.springframework.org/schema/beans/spring-beans.xsd
                                  http://www.springframework.org/schema/security
                                  http://www.springframework.org/schema/security/spring-security.xsd">
         
-        <http auto-config="true" use-expressions="false">
-            <intercept-url pattern="/**" access="ROLE_ADMIN" />		<!-- 모든 경로에 ROLE_USER 접근권한을 지정 -->
+        <http auto-config="true" use-expressions="false" security="none" >
+<!--         	<csrf disabled="false" token-repository-ref="tokenRepository"/>
+            <intercept-url pattern="/api/member/**" access="ROLE_ADMIN" /> -->		<!-- 모든 경로에 ROLE_USER 접근권한을 지정 -->
         </http>
-        
+        <!-- js에서 csrf 토큰에 접근하기 위한 설정 -->
+        <beans:bean id="tokenRepository"
+	    class="org.springframework.security.web.csrf.CookieCsrfTokenRepository"
+	    p:cookieHttpOnly="false"/>
+	    
         <authentication-manager>
             <authentication-provider>
                 <user-service>
@@ -19,5 +25,5 @@
                 </user-service>
             </authentication-provider>
         </authentication-manager>
-    
+        
 </beans:beans>
