@@ -18,6 +18,7 @@
 - Spring 4.3.29
 - Mysql 5.7.36
 - Mybatis 3.4.1
+- Spring Secrutiy 4.1.3
 
 ## Commit Style
 
