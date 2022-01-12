@@ -5,7 +5,7 @@
 	<title>Home</title>
 </head>
 <body>
-<meta name="viewport" content="width=device-width, initial-scale=1"><script defer src="/resources/index.js"></script></head>
+<meta name="viewport" content="width=device-width, initial-scale=1"></head>
 <body>
 <div id="home"></div>
 </body>
