@@ -17,6 +17,8 @@
 	    class="org.springframework.security.web.csrf.CookieCsrfTokenRepository"
 	    p:cookieHttpOnly="false"/>
 	    
+	    <beans:bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+	    
         <authentication-manager>
             <authentication-provider>
                 <user-service>

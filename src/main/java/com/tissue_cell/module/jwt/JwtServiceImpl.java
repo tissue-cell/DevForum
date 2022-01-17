@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
-import com.tissue_cell.dto.User;
+import com.tissue_cell.dto.UserDTO;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -19,7 +19,7 @@ public class JwtServiceImpl {
 	private long exp = 1000L * 60 * 60; // 토큰 사용가능 시간, 1시간
 	
 	// 토큰 생성하는 메서드
-	public String createToken(User user) { // 토큰에 담고싶은 값 파라미터로 가져오기
+	public String createToken(UserDTO user) { // 토큰에 담고싶은 값 파라미터로 가져오기
 		return Jwts.builder()
 				   .setHeaderParam("typ", "JWT") // 토큰 타입
 				   .setSubject("userToken") // 토큰 제목
