@@ -6,4 +6,5 @@ public interface LoginDAO {
 
 	public int InsertAccount(UserDTO user);
 	
+	public int SelectDuplication(String id);
 }

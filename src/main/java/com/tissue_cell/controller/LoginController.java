@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.ResponseEntity.BodyBuilder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,13 +20,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tissue_cell.dto.UserDTO;
 import com.tissue_cell.module.jwt.JwtServiceImpl;
 import com.tissue_cell.service.LoginService;
 
-@Controller
+@RestController
 public class LoginController {
 	
 	@Autowired
@@ -68,25 +70,55 @@ public class LoginController {
 				return new ResponseEntity<Object>("login Fail", HttpStatus.OK);
 			}
 		} catch(Exception e) {
-			return new ResponseEntity<Object>(null, HttpStatus.CONFLICT);
+			return new ResponseEntity<Object>(null, HttpStatus.UNAUTHORIZED);
 		}
 	}
 	
-	@RequestMapping(value = "/signup/insert", method = RequestMethod.GET)
-	@ResponseBody
-	public void regist(UserDTO user, Model model) throws Exception{
+	@GetMapping("/signup/insert")
+	public ResponseEntity<Object> insert(UserDTO user) throws Exception{
 		System.out.println("회원가입 요청");
 		
-		System.out.println("암호화 전 : " + user);
-		user.setPassword(bcryptPasswordEncoder.encode(user.getPassword()));
-		System.out.println("암호화 후 : " + user);
-		
-		int result = login.InsertAccount(user);
-		
-		if(result > 0) {
-			System.out.println("회원가입 성공");
-		}else {
+		try {
+			ResponseEntity<Object> response = duplication(user.getId());
+			if(!response.getStatusCode().equals(HttpStatus.ACCEPTED)) {
+				return response;
+			}
+			
+			// System.out.println("암호화 전 : " + user);
+			user.setPassword(bcryptPasswordEncoder.encode(user.getPassword()));
+			// System.out.println("암호화 후 : " + user);
+
+			int result = login.InsertAccount(user);
+
+			if (result > 0) {
+				System.out.println("회원가입 성공");
+				return new ResponseEntity<>(HttpStatus.ACCEPTED);
+			} else {
+				System.out.println("DB 등록 실패");
+				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		}catch (NullPointerException e) {
 			System.out.println("회원가입 실패");
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@GetMapping("/signup/duplication")
+	public ResponseEntity<Object> duplication(String id){
+		System.out.println("중복 체크");
+		
+		try {
+			int count = login.SelectDuplication(id);
+			
+			if(count > 0) {
+				System.out.println("중복된 계정");
+				return new ResponseEntity<Object>(HttpStatus.I_AM_A_TEAPOT);
+			}
+			
+			return new ResponseEntity<Object>(HttpStatus.ACCEPTED);
+			
+		}catch (Exception e) {
+			return new ResponseEntity<Object>(HttpStatus.FORBIDDEN);
 		}
 	}
 }

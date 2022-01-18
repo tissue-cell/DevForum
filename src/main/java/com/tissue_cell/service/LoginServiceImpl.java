@@ -18,4 +18,9 @@ public class LoginServiceImpl implements LoginService{
 		return login.InsertAccount(user);
 	}
 
+	@Override
+	public int SelectDuplication(String id) {
+		return login.SelectDuplication(id);
+	}
+
 }

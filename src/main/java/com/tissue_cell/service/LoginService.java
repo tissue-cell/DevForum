@@ -5,5 +5,7 @@ import com.tissue_cell.dto.UserDTO;
 public interface LoginService {
 	
 	public int InsertAccount(UserDTO user);
+	
+	public int SelectDuplication(String id);
 
 }
