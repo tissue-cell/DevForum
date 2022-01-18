@@ -46,4 +46,9 @@
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
  		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/>
 	</bean>
+	
+		<context:component-scan base-package="com.tissue_cell.module.jwt" />
+		<context:component-scan base-package="com.tissue_cell.dao" />
+		<context:component-scan base-package="com.tissue_cell.dto" />
+		<context:component-scan base-package="com.tissue_cell.service" />
 </beans>

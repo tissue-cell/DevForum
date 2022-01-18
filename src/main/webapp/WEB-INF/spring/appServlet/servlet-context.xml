@@ -31,11 +31,8 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-    <context:component-scan base-package="com.tissue_cell.module.jwt" />
 	<context:component-scan base-package="com.tissue_cell.controller" />
-	<context:component-scan base-package="com.tissue_cell.dao" />
-	<context:component-scan base-package="com.tissue_cell.dto" />
-	<context:component-scan base-package="com.tissue_cell.service" />
+
 	
 	
 	
