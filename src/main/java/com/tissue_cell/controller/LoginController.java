@@ -91,15 +91,12 @@ public class LoginController {
 			int result = login.InsertAccount(user);
 
 			if (result > 0) {
-				System.out.println("회원가입 성공");
-				return new ResponseEntity<>(HttpStatus.ACCEPTED);
+				return new ResponseEntity<>("회원가입 완료",HttpStatus.ACCEPTED);
 			} else {
-				System.out.println("DB 등록 실패");
-				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+				return new ResponseEntity<>("DB 등록 실패",HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		}catch (NullPointerException e) {
-			System.out.println("회원가입 실패");
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("회원가입 실패",HttpStatus.BAD_REQUEST);
 		}
 	}
 	
@@ -111,11 +108,10 @@ public class LoginController {
 			int count = login.SelectDuplication(id);
 			
 			if(count > 0) {
-				System.out.println("중복된 계정");
-				return new ResponseEntity<Object>(HttpStatus.I_AM_A_TEAPOT);
+				return new ResponseEntity<Object>("중복된 계정",HttpStatus.I_AM_A_TEAPOT);
 			}
 			
-			return new ResponseEntity<Object>(HttpStatus.ACCEPTED);
+			return new ResponseEntity<Object>("중복 체크 통과",HttpStatus.ACCEPTED);
 			
 		}catch (Exception e) {
 			return new ResponseEntity<Object>(HttpStatus.FORBIDDEN);
