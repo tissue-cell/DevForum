@@ -1,6 +1,7 @@
 package com.tissue_cell.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import com.tissue_cell.dao.LoginDAO;
