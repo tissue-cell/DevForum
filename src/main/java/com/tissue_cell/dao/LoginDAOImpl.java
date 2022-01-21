@@ -13,13 +13,22 @@ public class LoginDAOImpl implements LoginDAO{
 	SqlSession sqlSession;
 	
 	@Override
-	public int InsertAccount(UserDTO user) {
+	public int insertAccount(UserDTO user) {
 		return sqlSession.insert("login.insert_account", user);
 	}
 
 	@Override
-	public int SelectDuplication(String id) {
+	public int selectDuplication(String id) {
 		return sqlSession.selectOne("login.select_duplication", id);
 	}
-	
+
+	@Override
+	public UserDTO selectUser(String id) {
+		
+		return sqlSession.selectOne("login.select_user",id);
+	}
+	@Override
+	public void updateToken(UserDTO user) {
+		 sqlSession.update("login.update_user_token",user);
+	}
 }

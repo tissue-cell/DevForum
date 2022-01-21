@@ -32,6 +32,17 @@
 	</beans:bean>
 	
 	<context:component-scan base-package="com.tissue_cell.controller" />
+	
+	<!-- 로그인 인증 핸들러  -->
+	<beans:bean id="jwtInterceptor" class="com.tissue_cell.module.jwt.JwtInterceptor"/>
+
+		<interceptors>
+		  <interceptor>
+		    <mapping path="/api/getuser"/>
+		    <mapping path="/doB"/>
+		    <beans:ref bean="jwtInterceptor"/>
+		  </interceptor>
+		</interceptors>
 
 	
 	

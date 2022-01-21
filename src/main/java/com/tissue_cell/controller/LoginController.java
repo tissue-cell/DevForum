@@ -2,6 +2,7 @@ package com.tissue_cell.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,6 +28,7 @@ import com.tissue_cell.dto.UserDTO;
 import com.tissue_cell.module.jwt.JwtServiceImpl;
 import com.tissue_cell.service.LoginService;
 
+@RequestMapping("/api")
 @RestController
 public class LoginController {
 	
@@ -40,33 +42,47 @@ public class LoginController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 	
-	@GetMapping("/getUser") // 토큰에 담겨있는 사용자 정보를 리턴, 토큰이 필요한 경로
+	@GetMapping("/getuser") // 토큰에 담겨있는 사용자 정보를 리턴, 토큰이 필요한 경로
 	public ResponseEntity<Object> getUser(HttpServletRequest request) {
 		try {
-			String token = request.getHeader("jwt-auth-token");
-			Map<String, Object> tokenInfoMap = jwtService.getInfo(token);
+			Map<String, Object> tokenInfoMap = (Map<String, Object>) request.getAttribute("PAYLOAD");
+
+			logger.info(tokenInfoMap.get("userid").toString());
+//			UserDTO user = new ObjectMapper().convertValue(tokenInfoMap.get("userid"), UserDTO.class);
 			
-			UserDTO user = new ObjectMapper().convertValue(tokenInfoMap.get("user"), UserDTO.class);
-			
-			return new ResponseEntity<Object>(user, HttpStatus.OK);
+			return new ResponseEntity<Object>(tokenInfoMap, HttpStatus.OK);
 		} catch(Exception e) {
 			return new ResponseEntity<Object>(null, HttpStatus.CONFLICT);
 		}
 	}
 	
-	@PostMapping("/api/login") // 로그인, 토큰이 필요하지 않는 경로
+	@PostMapping("/login") // 로그인, 토큰이 필요하지 않는 경로
 	public ResponseEntity<Object> login(@RequestBody UserDTO user, HttpServletResponse response) {
 		try {
-			UserDTO DBUser = new UserDTO(); // 원래는 DB에 저장되어 있는 사용자 정보 가져와야 하는 부분
-			DBUser.setId("test");
-			DBUser.setPassword("1234");
-			logger.info(user.getId());
-			logger.info(user.getPassword());
-			if(DBUser.getId().equals(user.getId()) && DBUser.getPassword().equals(user.getPassword())) { // 유효한 사용자일 경우
-				String token = jwtService.createToken(user); // 사용자 정보로 토큰 생성
-				response.setHeader("jwt-auth-token", token); // client에 token 전달
+			UserDTO DBUser = login.selectUser(user.getId());
+			if(bcryptPasswordEncoder.matches(user.getPassword(),DBUser.getPassword())) {
+				logger.info("로그인 비밀번호 일치");
+				
+				String accessToken = jwtService.createAccessToken(user.getId()); // 사용자 정보로 액세스토큰 생성
+				String refreshToken = jwtService.createRefreshToken(user.getId()); // 사용자 정보로 리프레시토큰 생성
+				response.setHeader("jwt-access-token","Bearer" + accessToken); // client에 token 전달
+			    // create a cookie
+			    Cookie cookie = new Cookie("jwt-refresh-token","Bearer" +refreshToken);
+			    // expires in 14 days
+			    cookie.setMaxAge(14 * 24 * 60 * 60);
+			    // optional properties
+			    cookie.setSecure(true);
+			    cookie.setHttpOnly(true);
+			    cookie.setPath("/");
+			    // add cookie to response
+			    response.addCookie(cookie);
+				
+				DBUser.setToken(refreshToken);
+				login.updateToken(DBUser);
+				
 				return new ResponseEntity<Object>("login Success", HttpStatus.OK);
-			} else {
+			}else {
+				logger.info("로그인 비밀번호 불일치");
 				return new ResponseEntity<Object>("login Fail", HttpStatus.OK);
 			}
 		} catch(Exception e) {
@@ -74,6 +90,7 @@ public class LoginController {
 		}
 	}
 	
+
 	@GetMapping("/signup/insert")
 	public ResponseEntity<Object> insert(UserDTO user) throws Exception{
 		System.out.println("회원가입 요청");
@@ -83,12 +100,8 @@ public class LoginController {
 			if(!response.getStatusCode().equals(HttpStatus.ACCEPTED)) {
 				return response;
 			}
-			
-			// System.out.println("암호화 전 : " + user);
 			user.setPassword(bcryptPasswordEncoder.encode(user.getPassword()));
-			// System.out.println("암호화 후 : " + user);
-
-			int result = login.InsertAccount(user);
+			int result = login.insertAccount(user);
 
 			if (result > 0) {
 				return new ResponseEntity<>("회원가입 완료",HttpStatus.ACCEPTED);
@@ -105,7 +118,7 @@ public class LoginController {
 		System.out.println("중복 체크");
 		
 		try {
-			int count = login.SelectDuplication(id);
+			int count = login.selectDuplication(id);
 			
 			if(count > 0) {
 				return new ResponseEntity<Object>("중복된 계정",HttpStatus.I_AM_A_TEAPOT);

@@ -1,10 +1,13 @@
 package com.tissue_cell.module.jwt;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -13,24 +16,32 @@ public class JwtInterceptor implements HandlerInterceptor{
 	
 	@Autowired
 	private JwtServiceImpl jwtService;
+	@Autowired
+	private AuthorizationExtractor authExtractor;
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		
-		if(request.getMethod().equals("OPTIONS")) { // preflight로 넘어온 options는 통과
-			return true;
-		} else {
-			String token = request.getHeader("jwt-auth-token"); // client에서 요청할 때 header에 넣어둔 "jwt-auth-token"이라는 키 값을 확인
-			if(token != null && token.length() > 0) {
-				jwtService.checkValid(token); // 토큰 유효성 검증
-				return true;
-			} else { // 유효한 인증토큰이 아닐 경우
-				throw new Exception("유효한 인증토큰이 존재하지 않습니다.");
-			}
-		}
+		System.out.println(">>> interceptor.preHandle 호출");
+		System.out.println(">>> "+ request.getHeader(authExtractor.AUTHORIZATION));
+//		System.out.println(">>> "+ request.getParameter(authExtractor.AUTHORIZATION));
+        String token = authExtractor.extract(request, "Bearer");
+//        String token = request.getParameter(authExtractor.AUTHORIZATION);
+        
+        if (StringUtils.isEmpty(token)) {
+            return true;
+        }
+
+        if (!jwtService.validateToken(token)) {
+        	System.out.println(">>> "+token);
+            throw new IllegalArgumentException("유효하지 않은 토큰");
+        }
+
+        Map<String,Object> sub = jwtService.getInfo(token);
+        request.setAttribute("PAYLOAD", sub);
+        return true;
 	}
-//??
 
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
