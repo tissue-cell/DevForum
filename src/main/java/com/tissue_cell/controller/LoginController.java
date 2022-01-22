@@ -47,17 +47,17 @@ public class LoginController {
 		try {
 			Map<String, Object> tokenInfoMap = (Map<String, Object>) request.getAttribute("PAYLOAD");
 
-			logger.info(tokenInfoMap.get("userid").toString());
-//			UserDTO user = new ObjectMapper().convertValue(tokenInfoMap.get("userid"), UserDTO.class);
+			logger.info(tokenInfoMap.get("sub").toString());
 			
 			return new ResponseEntity<Object>(tokenInfoMap, HttpStatus.OK);
 		} catch(Exception e) {
+			System.out.print("/getuser : "+e.getMessage());
 			return new ResponseEntity<Object>(null, HttpStatus.CONFLICT);
 		}
 	}
 	
-	@PostMapping("/login") // 로그인, 토큰이 필요하지 않는 경로
-	public ResponseEntity<Object> login(@RequestBody UserDTO user, HttpServletResponse response) {
+	@GetMapping("/login") // 로그인, 토큰이 필요하지 않는 경로
+	public ResponseEntity<Object> login(UserDTO user, HttpServletResponse response) {
 		try {
 			UserDTO DBUser = login.selectUser(user.getId());
 			if(bcryptPasswordEncoder.matches(user.getPassword(),DBUser.getPassword())) {
@@ -65,9 +65,9 @@ public class LoginController {
 				
 				String accessToken = jwtService.createAccessToken(user.getId()); // 사용자 정보로 액세스토큰 생성
 				String refreshToken = jwtService.createRefreshToken(user.getId()); // 사용자 정보로 리프레시토큰 생성
-				response.setHeader("jwt-access-token","Bearer" + accessToken); // client에 token 전달
+				response.setHeader("JWT-ACCESS-TOKEN",accessToken); // client에 token 전달
 			    // create a cookie
-			    Cookie cookie = new Cookie("jwt-refresh-token","Bearer" +refreshToken);
+			    Cookie cookie = new Cookie("JWT-REFRESH-TOKEN",refreshToken);
 			    // expires in 14 days
 			    cookie.setMaxAge(14 * 24 * 60 * 60);
 			    // optional properties
@@ -86,6 +86,7 @@ public class LoginController {
 				return new ResponseEntity<Object>("login Fail", HttpStatus.OK);
 			}
 		} catch(Exception e) {
+			logger.info(e.getMessage());
 			return new ResponseEntity<Object>(null, HttpStatus.UNAUTHORIZED);
 		}
 	}

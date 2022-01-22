@@ -29,11 +29,11 @@ public class SignUpTest {
 		user.setId("user");
 		user.setPassword("1234");
 		System.out.println("회원가입");
-		if(login.SelectDuplication(user.getId()) > 0) {
+		if(login.selectDuplication(user.getId()) > 0) {
 			System.out.println("중복아이디 있음 저장 실패");
 		}else {
 			System.out.println("중복아이디 없음 저장 성공");
-			login.InsertAccount(user);
+			login.insertAccount(user);
 		}
 	}
 	

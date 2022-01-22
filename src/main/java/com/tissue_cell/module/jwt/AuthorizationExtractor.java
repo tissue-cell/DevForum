@@ -20,6 +20,6 @@ public class AuthorizationExtractor {
             }
         }
 
-        return "null";
+        return null;
     }
 }
