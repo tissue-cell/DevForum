@@ -5,8 +5,10 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.tissue_cell.config.PropertiesConfig;
 import com.tissue_cell.dto.UserDTO;
 
 import io.jsonwebtoken.Claims;
@@ -17,13 +19,26 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
+import lombok.RequiredArgsConstructor;
 
 @Component
 public class JwtServiceImpl {
-
-	private String secretKey = "myKey"; // 서명에 사용할 secretKey
-//	private final long ACCESS_TOKEN_EXPIRE = 1000L * 60 * 60; // 토큰 사용가능 시간, 1시간
-	private final long ACCESS_TOKEN_EXPIRE = 1000L * 30; 
+	
+	
+	private PropertiesConfig propertiesConfig;
+			
+	@Autowired
+	public JwtServiceImpl(PropertiesConfig propertiesConfig) {
+		this.propertiesConfig = propertiesConfig;
+		secretKey = propertiesConfig.getGithubSecretKey();
+		System.out.println(propertiesConfig.getGithubSecretKey());
+	}
+	
+	
+	private String secretKey; // 서명에 사용할 secretKey
+	
+	private final long ACCESS_TOKEN_EXPIRE = 1000L * 60 * 60; // 토큰 사용가능 시간, 1시간
+//	private final long ACCESS_TOKEN_EXPIRE = 1000L * 30; 
 	private final long REFRESH_TOKEN_EXPIRE = 1000L * 60 * 60 * 24 * 14; // 토큰 사용가능 시간, 2주
 
 

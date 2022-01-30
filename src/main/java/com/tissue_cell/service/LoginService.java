@@ -1,15 +1,22 @@
 package com.tissue_cell.service;
 
+import javax.servlet.http.HttpServletResponse;
+
 import com.tissue_cell.dto.UserDTO;
 
 public interface LoginService {
 	
-	public int insertAccount(UserDTO user);
 	
-	public int selectDuplication(String id);
+	public boolean isLogin(UserDTO user);
 	
-	public UserDTO selectUser(String id);
+	public boolean isUserExist(String id);
 	
-	public void updateToken(UserDTO user);
+	public int signUp(UserDTO user);
+	
+	public HttpServletResponse responseToken(UserDTO user,HttpServletResponse response);
+	
+	
+	
+	
 
 }

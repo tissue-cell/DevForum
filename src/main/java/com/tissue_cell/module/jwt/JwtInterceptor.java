@@ -11,11 +11,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.tissue_cell.dao.LoginDAO;
 import com.tissue_cell.dto.UserDTO;
-import com.tissue_cell.service.LoginService;
-
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.JwtException;
 
 @Component
 public class JwtInterceptor implements HandlerInterceptor {
@@ -25,7 +22,7 @@ public class JwtInterceptor implements HandlerInterceptor {
 	@Autowired
 	private AuthorizationExtractor authExtractor;
 	@Autowired
-	private LoginService login;
+	private LoginDAO login;
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)

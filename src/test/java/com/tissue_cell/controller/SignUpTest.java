@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.tissue_cell.dao.LoginDAO;
 import com.tissue_cell.dto.UserDTO;
 import com.tissue_cell.service.LoginService;
 
@@ -19,7 +20,7 @@ public class SignUpTest {
 	
 	
 	@Autowired
-	private LoginService login;
+	private LoginDAO loginDao;
 	
 	@Test
 	public void 회원가입() {
@@ -29,11 +30,11 @@ public class SignUpTest {
 		user.setId("user");
 		user.setPassword("1234");
 		System.out.println("회원가입");
-		if(login.selectDuplication(user.getId()) > 0) {
+		if(loginDao.selectDuplication(user.getId()) > 0) {
 			System.out.println("중복아이디 있음 저장 실패");
 		}else {
 			System.out.println("중복아이디 없음 저장 성공");
-			login.insertAccount(user);
+			loginDao.insertAccount(user);
 		}
 	}
 	

@@ -5,15 +5,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="login">
 
 	<insert id="insert_account" parameterType="com.tissue_cell.dto.UserDTO">
-		INSERT INTO user (ID, PW, NAME, EMAIL) VALUES (#{id}, #{password}, #{name}, #{email})
+		INSERT INTO user (id, password, name, email) VALUES (#{id}, #{password}, #{name}, #{email})
 	</insert>
 	
 	<select id="select_duplication" parameterType="String" resultType="int">
-		SELECT COUNT(ID) from user WHERE ID = #{id}
+		SELECT COUNT(ID) from user WHERE id = #{id}
 	</select>
 	
 	<select id="select_user" parameterType="String" resultType="com.tissue_cell.dto.UserDTO">
-		SELECT * FROM user WHERE ID = #{id}
+		SELECT * FROM user WHERE id = #{id}
 	</select>
 	
 	<update id="update_user_token" parameterType="com.tissue_cell.dto.UserDTO">

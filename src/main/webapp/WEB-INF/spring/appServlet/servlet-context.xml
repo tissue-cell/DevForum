@@ -43,8 +43,7 @@
 		    <beans:ref bean="jwtInterceptor"/>
 		  </interceptor>
 		</interceptors>
-
-	
+<!-- <context:property-placeholder location="classpath:config/*.properties" /> -->
 	
 	
 </beans:beans>
