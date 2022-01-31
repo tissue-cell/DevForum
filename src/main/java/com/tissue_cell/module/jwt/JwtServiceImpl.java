@@ -31,7 +31,6 @@ public class JwtServiceImpl {
 	public JwtServiceImpl(PropertiesConfig propertiesConfig) {
 		this.propertiesConfig = propertiesConfig;
 		secretKey = propertiesConfig.getGithubSecretKey();
-		System.out.println(propertiesConfig.getGithubSecretKey());
 	}
 	
 	
@@ -47,6 +46,7 @@ public class JwtServiceImpl {
 		return Jwts.builder().setHeaderParam("typ", "JWT") // 토큰 타입
 				.setSubject(userId) // 토큰 제목
 				.setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPIRE)) // 토큰 유효시간
+				.setIssuedAt(new Date(System.currentTimeMillis()))// 토큰 생성시간
 				.claim("token_type", "access")	// 토큰에 담을 데이터 선택사항
 				.signWith(SignatureAlgorithm.HS256, secretKey) // secretKey를 사용하여 해싱 암호화 알고리즘 처리
 				.compact(); // 직렬화, 문자열로 변경
@@ -55,6 +55,7 @@ public class JwtServiceImpl {
 	public String createRefreshToken(String userId) { // 토큰에 담고싶은 값 파라미터로 가져오기
 		return Jwts.builder().setHeaderParam("typ", "JWT") // 토큰 타입
 				.setExpiration(new Date(System.currentTimeMillis() + REFRESH_TOKEN_EXPIRE)) // 토큰 유효시간
+				.setIssuedAt(new Date(System.currentTimeMillis()))// 토큰 생성시간
 				.claim("token_type", "refresh")	// 토큰에 담을 데이터 선택사항
 				.signWith(SignatureAlgorithm.HS256, secretKey) // secretKey를 사용하여 해싱 암호화 알고리즘 처리
 				.compact(); // 직렬화, 문자열로 변경

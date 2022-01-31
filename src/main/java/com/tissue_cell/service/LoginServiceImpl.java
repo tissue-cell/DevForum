@@ -19,8 +19,9 @@ public class LoginServiceImpl implements LoginService {
 	private LoginDAO loginDao;
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
-	
+
 	private JwtServiceImpl jwtService;
+
 	@Autowired
 	public LoginServiceImpl(JwtServiceImpl jwtService) {
 		this.jwtService = jwtService;
@@ -28,7 +29,7 @@ public class LoginServiceImpl implements LoginService {
 
 	@Override
 	public boolean isLogin(UserDTO userDto) {
-		if (bcryptPasswordEncoder.matches(userDto.getPassword(),loginDao.selectUser(userDto.getId()).getPassword())) {
+		if (bcryptPasswordEncoder.matches(userDto.getPassword(), loginDao.selectUser(userDto.getId()).getPassword())) {
 			return true;
 		} else {
 			return false;
@@ -51,7 +52,7 @@ public class LoginServiceImpl implements LoginService {
 		cookie.setPath("/");
 		// add cookie to response
 		response.addCookie(cookie);
-		//리프레시 토큰 업데이트
+		// 리프레시 토큰 업데이트
 		userDto.setToken(refreshToken);
 		loginDao.updateToken(userDto);
 		return response;
@@ -68,7 +69,9 @@ public class LoginServiceImpl implements LoginService {
 
 	@Override
 	public int signUp(UserDTO userDto) {
-		userDto.setPassword(bcryptPasswordEncoder.encode(userDto.getPassword()));
+		if (userDto.getPassword() != null) {
+			userDto.setPassword(bcryptPasswordEncoder.encode(userDto.getPassword()));
+		}
 		return loginDao.insertAccount(userDto);
 
 	}

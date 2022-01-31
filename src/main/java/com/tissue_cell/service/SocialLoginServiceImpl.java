@@ -45,14 +45,12 @@ public class SocialLoginServiceImpl implements SocialLoginService {
 				entity, // {요청할 때 보낼 데이터}
 				String.class // {요청시 반환되는 데이터 타입}
 		);
-		
 		return responseGithubToken;
 	}
 	
 	@Override
 	public Map<String, String> requestEmail(ResponseEntity<String> responseEntity) {
 		Map<String, String> response = new HashMap<String, String>();
-		response.put("test", "1234");
 		JSONObject json = new JSONObject(responseEntity.getBody());
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Authorization", "token " + json.getString("access_token"));
@@ -74,7 +72,7 @@ public class SocialLoginServiceImpl implements SocialLoginService {
 				JSONObject jsonObject = (JSONObject) jsonArray.get(i);
 				if (jsonObject.get("primary").toString().equals("true")) {
 					response.put("email", jsonObject.getString("email"));
-					response.put("github_token", json.getString("access_token"));
+					response.put("github_access_token", json.getString("access_token"));
 
 				}
 			}
