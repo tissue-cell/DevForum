@@ -34,7 +34,7 @@
 	</bean>  
 	<bean id="propertyConfig" class="org.jasypt.spring31.properties.EncryptablePropertyPlaceholderConfigurer">
         <constructor-arg ref="configurationEncryptor"/>
-        <property name="location" value="classpath:db.properties"/>
+        <property name="location" value="classpath:config/db.properties"/>
     </bean>
     
    

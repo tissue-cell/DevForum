@@ -1,53 +1,29 @@
 package com.tissue_cell.controller;
 
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.ResponseEntity.BodyBuilder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonArrayFormatVisitor;
-import com.tissue_cell.config.PropertiesConfig;
-import com.tissue_cell.config.RestTemplateConfig;
 import com.tissue_cell.dto.UserDTO;
-
 import com.tissue_cell.service.LoginService;
 import com.tissue_cell.service.SocialLoginService;
 
 @RequestMapping("/api")
 @RestController
 
-public class LoginController {
+public class MemberController {
 
 
 	@Autowired
@@ -57,7 +33,7 @@ public class LoginController {
 	SocialLoginService socialLoginService;
 
 
-	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
+	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
 	@GetMapping("/getuser") // 토큰에 담겨있는 사용자 정보를 리턴, 토큰이 필요한 경로
 	public ResponseEntity<Object> getUser(HttpServletRequest request) {
@@ -117,26 +93,8 @@ public class LoginController {
 		} else {
 			return new ResponseEntity<Object>("중복 체크 통과", HttpStatus.OK);
 		}
-
 	}
 
-	@GetMapping("/auth/github")
-	public ResponseEntity<Object> loginGithub(String code,HttpServletResponse response) {
-		
-		ResponseEntity<String> responseAccessToken = socialLoginService.requestAccessToken(code);
-		
-		Map<String,String> responseMap = socialLoginService.requestEmail(responseAccessToken);
-		
-		if(loginService.isUserExist(responseMap.get("email"))) {
-			UserDTO user = new UserDTO();
-			user.setId(responseMap.get("email"));
-			loginService.responseToken(user, response);
-			return new ResponseEntity<>("이미 회원가입한 상태 jwt 토큰 발급", HttpStatus.OK);
-		}else {
-			return new ResponseEntity<>(responseMap, HttpStatus.OK);
-		}
-		
-		
-	}
+	
 
 }
