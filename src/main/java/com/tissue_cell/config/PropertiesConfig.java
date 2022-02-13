@@ -22,8 +22,8 @@ public class PropertiesConfig {
 	@Value("#{property['jwt.secretkey']}")
 	private String jwtSecretKey;
 	
-	@Value("#{property['google.login.url']}")
-	private String googleLoginUrl;
+	@Value("#{property['google.token.uri']}")
+	private String googleTokenUri;
 	
 	@Value("#{property['google.client']}")
 	private String googleClientId;
@@ -37,18 +37,4 @@ public class PropertiesConfig {
 	@Value("#{property['google.scope']}")
 	private String ScopeUrl;
 	
-	@Value("#{property['google.call']}")
-	private String googleCall;
-	
-	public String googleInitUrl() {		//테스트용
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("client_id", getGoogleClientId());
-		params.put("redirect_uri", getGoogleRedirectUri());
-		params.put("response_type", "code");
-		params.put("scope", getScopeUrl());
-		
-		String paramStr = params.entrySet().stream().map(param -> param.getKey() + "=" + param.getValue()).collect(Collectors.joining("&"));
-		
-		return getGoogleLoginUrl() + "?" + paramStr;
-	}
 }
