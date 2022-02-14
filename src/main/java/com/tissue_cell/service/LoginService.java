@@ -1,5 +1,6 @@
 package com.tissue_cell.service;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import com.tissue_cell.dto.UserDTO;
@@ -14,5 +15,8 @@ public interface LoginService {
 	public int signUp(UserDTO user);
 	
 	public HttpServletResponse responseToken(UserDTO user,HttpServletResponse response);
+	
+
+	public Cookie setCookie(String name,String token);
 	
 }

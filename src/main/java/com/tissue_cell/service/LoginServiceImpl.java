@@ -41,23 +41,27 @@ public class LoginServiceImpl implements LoginService {
 	public HttpServletResponse responseToken(UserDTO userDto, HttpServletResponse response) {
 		String accessToken = jwtService.createAccessToken(userDto.getId()); // 사용자 정보로 액세스토큰 생성
 		String refreshToken = jwtService.createRefreshToken(userDto.getId()); // 사용자 정보로 리프레시토큰 생성
-		response.setHeader("JWT-ACCESS-TOKEN", accessToken); // client에 token 전달
-		// create a cookie
-		Cookie cookie = new Cookie("JWT-REFRESH-TOKEN", refreshToken);
-		// expires in 14 days
-		cookie.setMaxAge(14 * 24 * 60 * 60);
-		// optional properties
-		cookie.setSecure(true);
-		cookie.setHttpOnly(true);
-		cookie.setPath("/");
-		// add cookie to response
-		response.addCookie(cookie);
+
+//		 add cookie to response
+		response.setHeader("access_token", accessToken);
+		response.addCookie(setCookie("refresh_token",refreshToken));
 		// 리프레시 토큰 업데이트
 		userDto.setToken(refreshToken);
 		loginDao.updateToken(userDto);
 		return response;
 	}
-
+@Override
+public Cookie setCookie(String name,String value) {
+	// create a cookie
+	Cookie cookie = new Cookie(name, value);
+	// expires in 14 days
+	cookie.setMaxAge(14 * 24 * 60 * 60);
+	// optional properties
+	cookie.setSecure(true);
+	cookie.setHttpOnly(true);
+	cookie.setPath("/");
+	return cookie;
+}
 	@Override
 	public boolean isUserExist(String id) {
 		if (loginDao.selectDuplication(id) > 0) {
