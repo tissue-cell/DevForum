@@ -1,11 +1,6 @@
 package com.tissue_cell.config;
 
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -33,6 +28,9 @@ public class PropertiesConfig {
 	
 	@Value("#{property['google.redirect.uri']}")
 	private String googleRedirectUri;
+	
+	@Value("#{property['google.access.uri']}")
+	private String googleAccessUri;
 	
 	@Value("#{property['google.scope']}")
 	private String ScopeUrl;

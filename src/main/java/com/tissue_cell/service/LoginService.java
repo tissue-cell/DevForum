@@ -15,8 +15,4 @@ public interface LoginService {
 	
 	public HttpServletResponse responseToken(UserDTO user,HttpServletResponse response);
 	
-	
-	
-	
-
 }

@@ -3,6 +3,7 @@ package com.tissue_cell.controller;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -72,7 +73,6 @@ public class OauthCallbackController {
 				.redirectUri(config.getGoogleRedirectUri())
 				.grantType("authorization_code").build();
 
-		
 		//JSON 파싱을 위한 기본값 세팅
 		//요청시 파라미터는 스네이크 케이스로 세팅되므로 Object mapper에 미리 설정해준다.
 		ObjectMapper mapper = new ObjectMapper();
@@ -87,12 +87,17 @@ public class OauthCallbackController {
 		});
 		
 		System.out.println(resultEntity.getBody());
-
-		//ID Token만 추출 (사용자의 정보는 jwt로 인코딩 되어있다)
-		String jwtToken = result.getIdToken();
 		
+		String responseUri = config.getGoogleAccessUri() + "?access_token=" + result.getAccessToken();
 		
-		return result.getAccessToken();
+		String resultString = restTemplate.getForObject(responseUri, String.class);
+		//access request
+		Map<String, Object> accessResult = mapper.readValue(resultString, new TypeReference<HashMap<String, Object>>() {
+		});
+		
+		System.out.println(accessResult);
+		
+		return (String) accessResult.get("email");
 	}
 	
 	
