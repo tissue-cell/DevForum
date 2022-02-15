@@ -84,8 +84,13 @@ public class GithubOAuthServiceImpl implements OAuthService {
 		System.out.println(responseGithubEmail.getBody());
 		List<Map<String, Object>> userResult = mapper.readValue(responseGithubEmail.getBody(), new TypeReference<ArrayList<HashMap<String, Object>>>() {});
 		
-		System.out.println(userResult);
-		
 		return (String) userResult.get(1).get("email");
+	}
+
+
+	@Override
+	public String logout() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

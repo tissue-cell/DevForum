@@ -27,7 +27,6 @@ public class OauthCallbackController {
 	
 	@GetMapping("/github")
 	public ResponseEntity<Object> loginGithub(String code,HttpServletResponse response) {
-		System.out.println(response.getStatus());
 		String userEmail = "";
 		
 		try {

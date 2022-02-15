@@ -59,6 +59,7 @@ public class GoogleOAuthServiceImpl implements OAuthService{
 
 	@Override
 	public String getUserEmail(String accessToken) throws Exception{
+		
 		String accessUrl = UriComponentsBuilder.fromHttpUrl(config.getGoogleAccessUri())
 				.queryParam("access_token", accessToken)
 				.toUriString();
@@ -70,6 +71,12 @@ public class GoogleOAuthServiceImpl implements OAuthService{
 		OAuthUser accessResult = mapper.readValue(resultEntity.getBody(), new TypeReference<OAuthUser>() {});
 		
 		return accessResult.getEmail();
+	}
+
+	@Override
+	public String logout() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
