@@ -16,7 +16,6 @@ public interface LoginService {
 	
 	public HttpServletResponse responseToken(UserDTO user,HttpServletResponse response);
 	
-
 	public Cookie setCookie(String name,String token);
 	
 }

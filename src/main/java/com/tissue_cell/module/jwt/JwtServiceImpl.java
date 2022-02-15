@@ -3,13 +3,10 @@ package com.tissue_cell.module.jwt;
 import java.util.Date;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.tissue_cell.config.PropertiesConfig;
-import com.tissue_cell.dto.UserDTO;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -19,7 +16,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
-import lombok.RequiredArgsConstructor;
 
 @Component
 public class JwtServiceImpl {
@@ -30,7 +26,7 @@ public class JwtServiceImpl {
 	@Autowired
 	public JwtServiceImpl(PropertiesConfig propertiesConfig) {
 		this.propertiesConfig = propertiesConfig;
-		secretKey = propertiesConfig.getGithubSecretKey();
+		secretKey = propertiesConfig.getGithubSecret();
 	}
 	
 	
