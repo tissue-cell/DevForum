@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tissue_cell.dto.UserDTO;
 import com.tissue_cell.service.LoginService;
-import com.tissue_cell.service.SocialLoginService;
 
 @RequestMapping("/api")
 @RestController
@@ -28,10 +27,6 @@ public class MemberController {
 
 	@Autowired
 	LoginService loginService;
-	
-	@Autowired
-	SocialLoginService socialLoginService;
-
 
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 

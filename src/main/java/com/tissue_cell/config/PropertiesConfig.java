@@ -11,8 +11,11 @@ import lombok.Getter;
 @Component
 public class PropertiesConfig {
 	
-	@Value("#{property['github.secretkey']}")
-	private String githubSecretKey;
+	@Value("#{property['github.secret']}")
+	private String githubSecret;
+	
+	@Value("#{property['github.client']}")
+	private String githubClientId;
 	
 	@Value("#{property['jwt.secretkey']}")
 	private String jwtSecretKey;
