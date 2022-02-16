@@ -76,7 +76,7 @@ public class GithubOAuthServiceImpl implements OAuthService {
 
 		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(null, headers);
 
-		ResponseEntity<String> responseGithubEmail = restTemplate.exchange("https://api.github.com/user/public_emails", // {요청할
+		ResponseEntity<String> responseGithubEmail = restTemplate.exchange("https://api.github.com/user/emails", // {요청할
 				HttpMethod.GET, // {요청할 방식}
 				entity, // {요청할 때 보낼 데이터}
 				String.class // {요청시 반환되는 데이터 타입}
@@ -84,7 +84,7 @@ public class GithubOAuthServiceImpl implements OAuthService {
 		System.out.println(responseGithubEmail.getBody());
 		List<Map<String, Object>> userResult = mapper.readValue(responseGithubEmail.getBody(), new TypeReference<ArrayList<HashMap<String, Object>>>() {});
 		
-		return (String) userResult.get(1).get("email");
+		return (String) userResult.get(0).get("email");
 	}
 
 
