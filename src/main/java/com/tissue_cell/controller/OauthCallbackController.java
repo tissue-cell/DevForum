@@ -43,7 +43,7 @@ public class OauthCallbackController {
 			
 			return new ResponseEntity<>("이미 회원가입한 상태 jwt 토큰 발급", HttpStatus.OK);
 		}else {		//회원가입 처리
-			return new ResponseEntity<>("회원가입",HttpStatus.OK);
+			return new ResponseEntity<>(userEmail,HttpStatus.CREATED);
 		}
 	}
 	
@@ -57,6 +57,7 @@ public class OauthCallbackController {
 		}catch (Exception e) {		//구글 서버 요청 실패시
 			return new ResponseEntity<Object>("Response at Google API server : "+e.toString(), HttpStatus.BAD_REQUEST);
 		}
+		
 		if(loginService.isUserExist(userEmail)) {		//로그인
 			UserDTO user = new UserDTO();
 			user.setId(userEmail);
@@ -64,7 +65,7 @@ public class OauthCallbackController {
 			
 			return new ResponseEntity<Object>("로그인",HttpStatus.OK);
 		}else {		//회원가입 처리
-			return new ResponseEntity<Object>("회원가입",HttpStatus.OK);
+			return new ResponseEntity<Object>(userEmail,HttpStatus.CREATED);
 		}
 		//System.out.println(userEmail);
 		
