@@ -8,7 +8,9 @@ import lombok.Data;
 public class OAuthRequest {
 	private String redirectUri;
 	private String clientId;
+	private String client_id;
 	private String clientSecret;
+	private String client_secret;
 	private String code;
 	private String responseType;
 	private String scope;

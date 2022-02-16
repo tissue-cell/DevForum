@@ -20,6 +20,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.tissue_cell.config.PropertiesConfig;
+import com.tissue_cell.dto.OAuthRequest;
+import com.tissue_cell.dto.OAuthResponse;
+import com.tissue_cell.dto.OAuthUser;
 
 @Service("github")
 public class GithubOAuthServiceImpl implements OAuthService {
@@ -46,15 +49,17 @@ public class GithubOAuthServiceImpl implements OAuthService {
 	@Override
 	public String getAccessToken(String code) throws Exception {
 		//액세스 토큰 요청을 위한 리퀘스트 파라미터
-		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-		params.add("code", code);
-		params.add("client_id", propertiesConfig.getGithubClientId());
-		params.add("client_secret", propertiesConfig.getGithubSecret());
+		
+		OAuthRequest githubOAuthRequestParam = OAuthRequest
+				.builder()
+				.client_id(propertiesConfig.getGithubClientId())
+				.client_secret(propertiesConfig.getGithubSecret())
+				.code(code).build();
 				
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Accept", "application/json");
 				
-		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(params, headers);
+		HttpEntity entity = new HttpEntity(githubOAuthRequestParam, headers);
 				
 		//System.out.println(propertiesConfig.getGithubSecretKey());
 		ResponseEntity<String> responseGithubToken = restTemplate.exchange(
@@ -64,9 +69,9 @@ public class GithubOAuthServiceImpl implements OAuthService {
 				String.class // {요청시 반환되는 데이터 타입}
 				);
 				
-		Map<String, Object> tokenresult = mapper.readValue(responseGithubToken.getBody(), new TypeReference<HashMap<String, Object>>() {});
+		OAuthResponse tokenresult = mapper.readValue(responseGithubToken.getBody(), new TypeReference<OAuthResponse>() {});
 				
-		return (String)tokenresult.get("access_token");
+		return (String)tokenresult.getAccessToken();
 	}
 
 	@Override
@@ -82,9 +87,9 @@ public class GithubOAuthServiceImpl implements OAuthService {
 				String.class // {요청시 반환되는 데이터 타입}
 		);
 		System.out.println(responseGithubEmail.getBody());
-		List<Map<String, Object>> userResult = mapper.readValue(responseGithubEmail.getBody(), new TypeReference<ArrayList<HashMap<String, Object>>>() {});
+		List<OAuthUser> userResult = mapper.readValue(responseGithubEmail.getBody(), new TypeReference<ArrayList<OAuthUser>>() {});
 		
-		return (String) userResult.get(0).get("email");
+		return (String) userResult.get(0).getEmail();
 	}
 
 
