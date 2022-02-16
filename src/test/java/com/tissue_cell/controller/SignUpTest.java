@@ -1,21 +1,19 @@
 package com.tissue_cell.controller;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import org.junit.Ignore;
 //import org.junit.jupiter.api.Test;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.tissue_cell.dao.LoginDAO;
 import com.tissue_cell.dto.UserDTO;
-import com.tissue_cell.service.LoginService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations={"file:src/main/webapp/WEB-INF/spring/**/root-context.xml"})
+@WebAppConfiguration
+@ContextConfiguration(locations={"file:src/main/webapp/WEB-INF/spring/**/*.xml"})
 public class SignUpTest {
 	
 	
