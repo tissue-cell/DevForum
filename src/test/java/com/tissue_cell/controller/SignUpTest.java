@@ -1,6 +1,5 @@
 package com.tissue_cell.controller;
 
-import org.junit.Before;
 //import org.junit.jupiter.api.Test;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.tissue_cell.dao.LoginDAO;
 import com.tissue_cell.dto.UserDTO;
@@ -17,14 +14,8 @@ import com.tissue_cell.dto.UserDTO;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(locations={"file:src/main/webapp/WEB-INF/spring/**/*.xml"})
-public class MemberControllerTest {
+public class SignUpTest {
 	
-	MockMvc mok;
-	
-	@Before
-	private void setUp() {
-		mok = MockMvcBuilders.standaloneSetup(new MemberController()).build();
-	}
 	
 	@Autowired
 	private LoginDAO loginDao;
@@ -36,7 +27,7 @@ public class MemberControllerTest {
 		user.setEmail("test@gmail.com");
 		user.setId("user");
 		user.setPassword("1234");
-		//System.out.println("회원가입");
+		System.out.println("회원가입");
 		if(loginDao.selectDuplication(user.getId()) > 0) {
 			System.out.println("중복아이디 있음 저장 실패");
 		}else {
@@ -44,12 +35,5 @@ public class MemberControllerTest {
 			loginDao.insertAccount(user);
 		}
 	}
-	
-	@Test
-	public void 로그인() {
-		
-	}
-	
-	
 	
 }
