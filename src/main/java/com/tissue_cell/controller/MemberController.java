@@ -21,7 +21,6 @@ import com.tissue_cell.service.LoginService;
 
 @RequestMapping("/api")
 @RestController
-
 public class MemberController {
 
 
@@ -46,6 +45,9 @@ public class MemberController {
 
 	@PostMapping("/login") // 로그인, 토큰이 필요하지 않는 경로
 	public ResponseEntity<Object> login(@RequestBody UserDTO userDto, HttpServletResponse response) {
+		if(response.containsHeader("Authorization")) {
+			return new ResponseEntity<Object>("you Already Login", HttpStatus.RESET_CONTENT);
+		}
 		try {
 			if (loginService.isLogin(userDto)) {
 				logger.info("로그인 비밀번호 일치");

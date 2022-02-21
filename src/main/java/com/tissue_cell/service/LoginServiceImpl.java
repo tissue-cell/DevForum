@@ -28,9 +28,14 @@ public class LoginServiceImpl implements LoginService {
 
 	@Override
 	public boolean isLogin(UserDTO userDto) {
-		if (bcryptPasswordEncoder.matches(userDto.getPassword(), loginDao.selectUser(userDto.getId()).getPassword())) {
-			return true;
-		} else {
+		UserDTO loginUser = loginDao.selectUser(userDto.getId());
+		if(loginUser != null) {
+			if (bcryptPasswordEncoder.matches(userDto.getPassword(), loginUser.getPassword())) {
+				return true;
+			} else {
+				return false;
+			}
+		}else {
 			return false;
 		}
 
