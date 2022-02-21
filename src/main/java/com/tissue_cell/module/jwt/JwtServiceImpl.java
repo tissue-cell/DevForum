@@ -26,7 +26,7 @@ public class JwtServiceImpl {
 	@Autowired
 	public JwtServiceImpl(PropertiesConfig propertiesConfig) {
 		this.propertiesConfig = propertiesConfig;
-		secretKey = propertiesConfig.getGithubSecret();
+		secretKey = propertiesConfig.getJwtSecretKey();
 	}
 	
 	
