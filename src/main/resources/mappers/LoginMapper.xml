@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="login">
 
 	<insert id="insert_account" parameterType="com.tissue_cell.dto.UserDTO">
-		INSERT INTO user (id, password, name, email) VALUES (#{id}, #{password}, #{name}, #{email})
+		INSERT INTO user (id, password, name, datetime) VALUES (#{id}, #{password}, #{name}, NOW())
 	</insert>
 	
 	<select id="select_duplication" parameterType="String" resultType="int">
