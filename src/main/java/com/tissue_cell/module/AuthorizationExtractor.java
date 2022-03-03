@@ -1,4 +1,4 @@
-package com.tissue_cell.module.jwt;
+package com.tissue_cell.module;
 
 import java.util.Enumeration;
 

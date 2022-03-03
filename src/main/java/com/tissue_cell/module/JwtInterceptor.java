@@ -1,4 +1,4 @@
-package com.tissue_cell.module.jwt;
+package com.tissue_cell.module;
 
 import java.util.Map;
 
@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 

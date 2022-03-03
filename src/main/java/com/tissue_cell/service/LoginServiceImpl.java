@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.tissue_cell.dao.LoginDAO;
 import com.tissue_cell.dto.UserDTO;
-import com.tissue_cell.module.jwt.JwtServiceImpl;
+import com.tissue_cell.module.JwtServiceImpl;
 
 @Service
 public class LoginServiceImpl implements LoginService {
