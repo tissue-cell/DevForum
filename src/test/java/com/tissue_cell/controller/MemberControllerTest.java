@@ -33,7 +33,6 @@ public class MemberControllerTest {
 	public void 회원가입() {
 		UserDTO user = new UserDTO();
 		user.setName("test");
-		user.setEmail("test@gmail.com");
 		user.setId("user");
 		user.setPassword("1234");
 		//System.out.println("회원가입");
