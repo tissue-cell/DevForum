@@ -59,5 +59,10 @@
 		<context:component-scan base-package="com.tissue_cell.module" />
 		<context:component-scan base-package="com.tissue_cell.dao" />
 		<context:component-scan base-package="com.tissue_cell.service" />
-		
+	
+	<context:component-scan base-package="com.tissue_cell">		<!-- 컨트롤러를 제외한 모든 패키지 스캔 -->
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controlller"/>
+	</context:component-scan>
+	
+	<aop:aspectj-autoproxy/>
 </beans>
